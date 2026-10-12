@@ -1,0 +1,82 @@
+# Visual Studio 2026 - recommended ignores
+
+# Visual Studio folders
+.vs/
+.vscode/
+.idea/
+
+# Build folders
+[Bb]in/
+[Oo]bj/
+build/
+publish/
+
+# Rider
+*.sln.iml
+*.ipr
+*.iws
+*.iml
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.csproj.user
+*.vcxproj.user
+
+# NuGet
+**/packages/
+.nuget/packages/
+*.nupkg
+
+# MSBuild generated files
+*.cache
+*.log
+*.vspscc
+*.vssscc
+project.lock.json
+project.fragment.lock.json
+
+# Test results and coverage
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+*.opencover
+
+# Database files
+*.mdf
+*.ldf
+*.dbmdl
+
+# Profiling
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Visual Studio Code workspace settings (optional - remove if you track them)
+.vscode/*
+
+# Misc
+*.bak
+*.Backup
+*.tmp
+*.swp
+
+# Ignore publish output
+**/publish/
+
+# Ignore user secrets (if present)
+secrets.json
+appsettings.Development.json
+
+# Ignore IDE-specific folders/files
+.idea/
+
+# End of .gitignore

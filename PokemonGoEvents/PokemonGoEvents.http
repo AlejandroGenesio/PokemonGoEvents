@@ -1,0 +1,6 @@
+@PokemonGoEvents_HostAddress = http://localhost:5230
+
+GET {{PokemonGoEvents_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
