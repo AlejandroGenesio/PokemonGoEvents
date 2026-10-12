@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "HyKqj2kc4dA=",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\PokemonGoEvents\\PokemonGoEvents\\PokemonGoEvents.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\angen\\.nuget\\packages\\htmlagilitypack\\1.11.46\\htmlagilitypack.1.11.46.nupkg.sha512",
+    "C:\\Users\\angen\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.12\\microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "C:\\Users\\angen\\.nuget\\packages\\microsoft.openapi\\2.12.0\\microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}
