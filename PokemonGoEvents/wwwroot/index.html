@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PokemonGoEvents — UI</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="theme-color" content="#0f172a">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>PokemonGoEvents</h1>
+      <p class="subtitle">Modern scalar UI — event links</p>
+    </header>
+
+    <section class="controls">
+      <input id="filter" placeholder="Filter links..." />
+      <button id="refresh">Refresh</button>
+    </section>
+
+    <section id="status" class="status">Loading...</section>
+
+    <ul id="links" class="links"></ul>
+  </main>
+</body>
+</html>

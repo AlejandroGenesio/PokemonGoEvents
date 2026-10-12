@@ -36,34 +36,33 @@ namespace PokemonGoEvents.Controllers
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            // Find nodes that contain class 'event-item'
-            var eventNodes = doc.DocumentNode.SelectNodes("//*[contains(@class,'event-item')]");
-            if (eventNodes == null || eventNodes.Count == 0)
+            // Find anchor elements with class 'event-item-link' and extract their href attributes.
+            // Use token-aware class matching to avoid partial matches.
+            var linkNodes = doc.DocumentNode.SelectNodes("//a[contains(concat(' ', normalize-space(@class), ' '), ' event-item-link ')]");
+            if (linkNodes == null || linkNodes.Count == 0)
                 return Ok(Array.Empty<string>());
 
             var urls = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var node in eventNodes)
+            foreach (var a in linkNodes)
             {
-                var anchors = node.SelectNodes(".//a[@href]");
-                if (anchors == null) continue;
+                var href = a.GetAttributeValue("href", string.Empty)?.Trim();
+                if (string.IsNullOrEmpty(href)) continue;
 
-                foreach (var a in anchors)
+                // Handle scheme-relative URLs
+                if (href.StartsWith("//"))
+                    href = "https:" + href;
+
+                // Normalize to absolute URL
+                if (!Uri.TryCreate(href, UriKind.Absolute, out var uri))
                 {
-                    var href = a.GetAttributeValue("href", string.Empty)?.Trim();
-                    if (string.IsNullOrEmpty(href)) continue;
-
-                    // Normalize to absolute URL
-                    if (!Uri.TryCreate(href, UriKind.Absolute, out var uri))
+                    if (Uri.TryCreate(BaseUrl, UriKind.Absolute, out var baseUri) && Uri.TryCreate(baseUri, href, out var resolved))
                     {
-                        if (Uri.TryCreate(BaseUrl, UriKind.Absolute, out var baseUri) && Uri.TryCreate(baseUri, href, out var resolved))
-                        {
-                            uri = resolved;
-                        }
+                        uri = resolved;
                     }
-
-                    if (uri != null)
-                        urls.Add(uri.ToString());
                 }
+
+                if (uri != null)
+                    urls.Add(uri.ToString());
             }
 
             return Ok(urls.OrderBy(u => u));
