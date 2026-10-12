@@ -1,0 +1,42 @@
+<h5 class="event-section-divider skeleton-loading first-ending-header">RECENTLY ENDED</h5><span class="event-header-item-wrapper" data-event-type="community-day" data-event-occurrence-id="2026-10-10-october-communityday2026" data-event-date-sort="2026-10-10T17:00:00" data-event-local-time="true" data-event-start-local-time="true" data-event-end-date="2026-10-10T17:00:00"
+data-event-start-date-check="2026-10-10T14:00:00"><a class="event-item-link hide-event" href="/events/october-communityday2026/111111"><div class="event-item-wrapper community-day skeleton-loading"><p>Community Day</p><div class="event-item"><span class="event-img-wrapper"><img class="" src="https://cdn.leekduck.com/cdn-cgi/image/fit=scale-down,height=95,quality=100,format=webp/assets/img/events/article-images/2026/2026-10-10-october-communityday2026/zorua-october-cd-2026.png" loading="lazy"></span>
+<div
+class="event-text-container">
+    <div class="event-text"><span class="event-tag-badge">Community Day</span>
+        <h2>Zorua Community Day</h2>
+        <p>Ends: Sat, Oct 10, at 5:00 PM Local Time</p>
+    </div>
+    <div class="event-countdown-container">
+        <div class="event-countdown" data-countdown-to="end" data-countdown="2026-10-10T17:00:00" data-local-time="true">
+            <div class="countdown-text-type">Ends: </div><span class="countdown-timer"><span><span class="cd-num">0</span><span class="cd-txt"> days</span></span><span><span class="cd-num">0</span><span class="cd-txt"> hours</span></span><span><span class="cd-num">0</span><span class="cd-txt"> min</span></span>
+            </span>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div data-reveal-countdown="2026-10-10T14:00:00" data-local-time="true"></div>
+    </div>
+    </a>
+    </span><span class="event-header-item-wrapper" data-event-type="event" data-event-occurrence-id="2026-10-04-world-space-week-2026" data-event-date-sort="2026-10-10T23:59:00" data-event-local-time="true" data-event-start-local-time="true" data-event-end-date="2026-10-10T23:59:00"
+    data-event-start-date-check="2026-10-04T00:00:00"><a class="event-item-link hide-event" href="/events/world-space-week-2026/22222"><div class="event-item-wrapper event skeleton-loading"><p>Event</p><div class="event-item"><span class="event-img-wrapper"><img class="" src="https://cdn.leekduck.com/cdn-cgi/image/fit=scale-down,height=95,quality=100,format=webp/assets/img/events/article-images/2026/2026-10-04-world-space-week-2026/world-space-week-2026.jpg" loading="lazy"></span>
+<h5 class="event-section-divider skeleton-loading first-ending-header">RECENTLY ENDED</h5><span class="event-header-item-wrapper" data-event-type="community-day" data-event-occurrence-id="2026-10-10-october-communityday2026" data-event-date-sort="2026-10-10T17:00:00" data-event-local-time="true" data-event-start-local-time="true" data-event-end-date="2026-10-10T17:00:00"
+data-event-start-date-check="2026-10-10T14:00:00"><a class="event-item-link hide-event" href="/events/october-communityday2026/"><div class="event-item-wrapper community-day skeleton-loading"><p>Community Day</p><div class="event-item"><span class="event-img-wrapper"><img class="" src="https://cdn.leekduck.com/cdn-cgi/image/fit=scale-down,height=95,quality=100,format=webp/assets/img/events/article-images/2026/2026-10-10-october-communityday2026/zorua-october-cd-2026.png" loading="lazy"></span>
+<div
+class="event-text-container">
+    <div class="event-text"><span class="event-tag-badge">Community Day</span>
+        <h2>Zorua Community Day</h2>
+        <p>Ends: Sat, Oct 10, at 5:00 PM Local Time</p>
+    </div>
+    <div class="event-countdown-container">
+        <div class="event-countdown" data-countdown-to="end" data-countdown="2026-10-10T17:00:00" data-local-time="true">
+            <div class="countdown-text-type">Ends: </div><span class="countdown-timer"><span><span class="cd-num">0</span><span class="cd-txt"> days</span></span><span><span class="cd-num">0</span><span class="cd-txt"> hours</span></span><span><span class="cd-num">0</span><span class="cd-txt"> min</span></span>
+            </span>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div data-reveal-countdown="2026-10-10T14:00:00" data-local-time="true"></div>
+    </div>
+    </a>
+    </span><span class="event-header-item-wrapper" data-event-type="event" data-event-occurrence-id="2026-10-04-world-space-week-2026" data-event-date-sort="2026-10-10T23:59:00" data-event-local-time="true" data-event-start-local-time="true" data-event-end-date="2026-10-10T23:59:00"
+    data-event-start-date-check="2026-10-04T00:00:00"><a class="event-item-link hide-event" href="/events/world-space-week-2026/"><div class="event-item-wrapper event skeleton-loading"><p>Event</p><div class="event-item"><span class="event-img-wrapper"><img class="" src="https://cdn.leekduck.com/cdn-cgi/image/fit=scale-down,height=95,quality=100,format=webp/assets/img/events/article-images/2026/2026-10-04-world-space-week-2026/world-space-week-2026.jpg" loading="lazy"></span>
