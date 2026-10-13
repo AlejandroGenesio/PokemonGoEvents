@@ -27,13 +27,6 @@ namespace PokemonGoEvents.Controllers
         {
             try
             {
-                var client = _httpClientFactory.CreateClient();
-                var fullUrl = BaseUrl + EventsPath;
-                var html = await client.GetStringAsync(fullUrl);
-
-                var node = HtmlHelpers.FindCurrentEventsFromHtml(html);
-                var content = node?.InnerHtml ?? string.Empty;
-
                 // First try to read a recent cached Gemini response file (1 day threshold).
                 var cached = HtmlHelpers.GetFileContentIfCreatedWithinDays("latestGeminiResponse", "gemini_response.txt", 0);
                 if (!string.IsNullOrEmpty(cached))
@@ -41,6 +34,13 @@ namespace PokemonGoEvents.Controllers
                     // Return cached assistant response without further processing
                     return Ok(new { assistant = cached + "<br/><br/>Cached Response" });
                 }
+
+                var client = _httpClientFactory.CreateClient();
+                var fullUrl = BaseUrl + EventsPath;
+                var html = await client.GetStringAsync(fullUrl);
+
+                var node = HtmlHelpers.FindCurrentEventsFromHtml(html);
+                var content = node?.InnerHtml ?? string.Empty;
 
                 // Extract links from the saved content, excluding hidden events
                 var links = HtmlHelpers.FindLinksExcludingHiddenFromHtml(content);
@@ -77,7 +77,7 @@ namespace PokemonGoEvents.Controllers
                     Console.WriteLine(geminiResponse);
                 }
 
-                return Ok(new { links, assistant = geminiResponse + "<br/><br/> Realtime response" });
+                return Ok(new { links, assistant = geminiResponse + "<br/><br/> Realtime response", widget = content });
             }
             catch (HttpRequestException ex)
             {
