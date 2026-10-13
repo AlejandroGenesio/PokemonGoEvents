@@ -2,6 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -37,6 +38,42 @@ namespace PokemonGoEvents.Helpers
             Directory.CreateDirectory(linksDir);
             var filePath = Path.Combine(linksDir, "strippedhtml.txt");
             File.WriteAllText(filePath, content ?? string.Empty);
+        }
+
+        /// <summary>
+        /// Read all .txt files inside the linksfound folder (under the current working directory)
+        /// and return their contents joined together. Files are read in alphabetical order.
+        /// Returns an empty string if the folder does not exist or no files are found.
+        /// </summary>
+        public static string ReadAllLinksFoundFilesContent(string? directoryPath = null)
+        {
+            var baseDir = Directory.GetCurrentDirectory();
+            var linksDir = string.IsNullOrWhiteSpace(directoryPath) ? Path.Combine(baseDir, "linksfound") : directoryPath;
+            if (!Directory.Exists(linksDir))
+                return string.Empty;
+
+            var files = Directory.GetFiles(linksDir, "*.txt").OrderBy(f => f).ToArray();
+            if (files.Length == 0)
+                return string.Empty;
+
+            var sb = new StringBuilder();
+            foreach (var file in files)
+            {
+                try
+                {
+                    var txt = File.ReadAllText(file);
+                    if (!string.IsNullOrEmpty(txt))
+                    {
+                        sb.AppendLine(txt);
+                    }
+                }
+                catch
+                {
+                    // ignore read errors for individual files
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
