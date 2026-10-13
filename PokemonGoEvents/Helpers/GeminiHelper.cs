@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -12,15 +12,34 @@ namespace PokemonGoEvents.Helpers
 {
     public static class GeminiHelper
     {
+
+        // Simple helper: read the raw contents of a .env file if present.
+        // Returns the file contents trimmed, or null if not present or unreadable.
+        private static string? LoadApiKeyFromDotEnv()
+        {
+            try
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+                if (!System.IO.File.Exists(path))
+                {
+                    path = Path.Combine(AppContext.BaseDirectory ?? string.Empty, ".env");
+                    if (!System.IO.File.Exists(path))
+                        return null;
+                }
+
+                var content = System.IO.File.ReadAllText(path);
+                return string.IsNullOrWhiteSpace(content) ? null : content.Trim();
+            }
+            catch
+            {
+                return null;
+            }
+        }
         // Optional API key that can be configured from IConfiguration or read from environment.
         private static string? _apiKey;
 
-        // Call this at startup (Program.cs) to provide the GEMINI_API_KEY from IConfiguration.
         public static void Configure(IConfiguration configuration)
         {
-            if (configuration == null) return;
-            _apiKey = configuration["GEMINI_API_KEY"] ?? System.Environment.GetEnvironmentVariable("GEMINI_API_KEY");
-
             // If not found in configuration or environment, try .env file in app folders
             if (string.IsNullOrWhiteSpace(_apiKey))
             {
@@ -28,57 +47,7 @@ namespace PokemonGoEvents.Helpers
             }
         }
 
-        private static string? LoadApiKeyFromDotEnv()
-        {
-            // Look for .env in common locations: content root, current directory, base directory
-            var candidates = new[] {
-                Path.Combine(Directory.GetCurrentDirectory(), ".env"),
-                Path.Combine(AppContext.BaseDirectory ?? string.Empty, ".env")
-            };
 
-            foreach (var path in candidates)
-            {
-                if (string.IsNullOrWhiteSpace(path))
-                    continue;
-
-                try
-                {
-                    if (!System.IO.File.Exists(path))
-                        continue;
-                    var lines = System.IO.File.ReadAllLines(path);
-                    foreach (var raw in lines)
-                    {
-                        var line = raw?.Trim();
-                        if (string.IsNullOrEmpty(line))
-                            continue;
-                        if (line.StartsWith("#"))
-                            continue;
-
-                        var idx = line.IndexOf('=');
-                        if (idx <= 0)
-                            continue;
-
-                        var key = line.Substring(0, idx).Trim();
-                        var val = line.Substring(idx + 1).Trim();
-
-                        // Remove surrounding quotes if present
-                        if (val.Length >= 2 && ((val.StartsWith("\"") && val.EndsWith("\"")) || (val.StartsWith("\'") && val.EndsWith("\'"))))
-                        {
-                            val = val.Substring(1, val.Length - 2);
-                        }
-
-                        if (string.Equals(key, "GEMINI_API_KEY", StringComparison.OrdinalIgnoreCase))
-                            return val;
-                    }
-                }
-                catch
-                {
-                    // ignore and try next candidate
-                }
-            }
-
-            return null;
-        }
 
         /// <summary>
         /// Send the provided content followed by the question to the Gemini model and return the text response.
