@@ -1,5 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Load GEMINI_API_KEY from configuration (user-secrets or environment) into GeminiHelper.
+// Ensure this runs before any code that calls GeminiHelper.
+PokemonGoEvents.Helpers.GeminiHelper.Configure(builder.Configuration);
+
 // Add services to the container.
 
 builder.Services.AddControllers();

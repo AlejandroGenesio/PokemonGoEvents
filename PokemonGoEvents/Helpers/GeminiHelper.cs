@@ -1,13 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Google.GenAI;
 using Google.GenAI.Types;
+using Microsoft.Extensions.Configuration;
 
 namespace PokemonGoEvents.Helpers
 {
     public static class GeminiHelper
     {
+        // Optional API key that can be configured from IConfiguration or read from environment.
+        private static string? _apiKey;
+
+        // Call this at startup (Program.cs) to provide the GEMINI_API_KEY from IConfiguration.
+        public static void Configure(IConfiguration configuration)
+        {
+            if (configuration == null) return;
+            _apiKey = configuration["GEMINI_API_KEY"] ?? System.Environment.GetEnvironmentVariable("GEMINI_API_KEY");
+        }
+
         /// <summary>
         /// Send the provided content followed by the question to the Gemini model and return the text response.
         /// Uses a simple retry/backoff strategy similar to the implementation in the external speesh project.
@@ -16,6 +29,19 @@ namespace PokemonGoEvents.Helpers
         {
             if (string.IsNullOrWhiteSpace(content) && string.IsNullOrWhiteSpace(question))
                 return null;
+
+            // Ensure API key is loaded either from Configure(...) or environment.
+            if (string.IsNullOrWhiteSpace(_apiKey))
+            {
+                _apiKey = System.Environment.GetEnvironmentVariable("GEMINI_API_KEY");
+            }
+
+            // If an API key is available, also expose it as GOOGLE_API_KEY in the process
+            // environment so underlying Google libraries that read that variable can pick it up.
+            if (!string.IsNullOrWhiteSpace(_apiKey))
+            {
+                System.Environment.SetEnvironmentVariable("GOOGLE_API_KEY", _apiKey);
+            }
 
             var client = new Client();
 
@@ -31,6 +57,8 @@ namespace PokemonGoEvents.Helpers
                     {
                         new Part { Text = combined }
                     }
+
+
                 }
             };
 
