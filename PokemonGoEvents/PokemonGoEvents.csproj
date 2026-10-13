@@ -9,6 +9,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="Google.GenAI" Version="1.21.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.21.12" />
+  </ItemGroup>
+
+  <!-- Exclude external projects or source trees from being compiled into this project -->
+  <ItemGroup>
+    <Compile Remove="external\**\*.cs" />
+    <EmbeddedResource Remove="external\**\*.*" />
+    <None Remove="external\**\*.*" />
   </ItemGroup>
 
 </Project>

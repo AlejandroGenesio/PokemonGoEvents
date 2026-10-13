@@ -50,6 +50,8 @@ namespace PokemonGoEvents.Controllers
                 // Save each URL's content to disk if missing
                 await HtmlHelpers.LoopUrlsAndSaveIfMissingAsync(urls);
 
+                string allContent = HtmlHelpers.ReadAllLinksFoundFilesContent();
+
                 // Return the found event info as JSON
                 return Ok(links);
             }

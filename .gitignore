@@ -83,3 +83,5 @@ appsettings.Development.json
 
 # Ignore generated links content
 linksfound/
+# Ignore external projects or vendor code
+external/
