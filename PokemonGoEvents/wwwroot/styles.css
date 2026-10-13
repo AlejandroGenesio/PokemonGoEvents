@@ -7,11 +7,7 @@ body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe
 header h1{margin:0;font-size:28px}
 .subtitle{color:var(--muted);margin-top:4px}
 .controls{display:flex;gap:8px;margin:16px 0}
-.controls input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:var(--text)}
 .controls button{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#052025}
 .status{color:var(--muted);margin-bottom:8px}
-.links{list-style:none;padding:0;margin:0}
-.link-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));margin-bottom:8px}
-.link-item a{color:var(--text);text-decoration:none;word-break:break-all}
-.link-item .copy{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:6px 8px;border-radius:6px}
-.empty{color:var(--muted);padding:10px}
+
+.assistant{padding:12px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));white-space:pre-wrap;color:var(--text)}
