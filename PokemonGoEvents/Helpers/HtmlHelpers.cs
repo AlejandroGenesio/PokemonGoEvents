@@ -2,6 +2,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using System.Net.Http;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace PokemonGoEvents.Helpers
@@ -66,6 +68,51 @@ namespace PokemonGoEvents.Helpers
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Loop over the provided URLs, and for each URL:
+        /// 1. Check if a file (under linksfound) exists for that URL using DoesFileExist.
+        /// 2. If the file does not exist, download the URL content and create the file using CreateFileIfNotExists.
+        /// The URL is converted to a filesystem-safe filename by URL-escaping and appended with .txt.
+        /// </summary>
+        public static async Task LoopUrlsAndSaveIfMissingAsync(IEnumerable<string> urls)
+        {
+            if (urls == null)
+                return;
+
+            var baseDir = Directory.GetCurrentDirectory();
+            var linksDir = Path.Combine(baseDir, "linksfound");
+            Directory.CreateDirectory(linksDir);
+
+            using var client = new HttpClient();
+
+            foreach (var url in urls)
+            {
+                if (string.IsNullOrWhiteSpace(url))
+                    continue;
+
+                // Create a filesystem-safe filename from the URL
+                var fileNameSafe = Uri.EscapeDataString(url);
+                var filePath = Path.Combine(linksDir, fileNameSafe + ".txt");
+
+                try
+                {
+                    if (DoesFileExist(filePath))
+                        continue;
+
+                    // Download content
+                    var content = await client.GetStringAsync(url);
+
+                    // Attempt to create the file (will only create if not exists)
+                    CreateFileIfNotExists(filePath, content);
+                }
+                catch
+                {
+                    // Swallow exceptions per-url to continue processing others.
+                    // In a real app, consider logging the error.
+                }
+            }
         }
 
         /// <summary>

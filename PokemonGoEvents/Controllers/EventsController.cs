@@ -37,7 +37,20 @@ namespace PokemonGoEvents.Controllers
                 // Extract links from the saved content, excluding hidden events
                 var links = HtmlHelpers.FindLinksExcludingHiddenFromHtml(content);
 
-                // Return the found links as JSON
+                // Build absolute URLs from the extracted refs (fallback to href stored in Ref).
+                var urls = links
+                    .Select(l => l.Ref)
+                    .Where(r => !string.IsNullOrEmpty(r))
+                    .Select(r => r!.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+                        ? r!
+                        : BaseUrl.TrimEnd('/') + (r!.StartsWith("/") ? r : "/" + r))
+                    .Distinct()
+                    .ToList();
+
+                // Save each URL's content to disk if missing
+                await HtmlHelpers.LoopUrlsAndSaveIfMissingAsync(urls);
+
+                // Return the found event info as JSON
                 return Ok(links);
             }
             catch (HttpRequestException ex)
