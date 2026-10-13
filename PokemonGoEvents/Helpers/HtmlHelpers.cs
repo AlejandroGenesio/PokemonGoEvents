@@ -104,6 +104,8 @@ namespace PokemonGoEvents.Helpers
                     // Download content
                     var content = await client.GetStringAsync(url);
 
+                    content = GetContentSubPages(content);
+
                     // Attempt to create the file (will only create if not exists)
                     CreateFileIfNotExists(filePath, content);
                 }
@@ -143,16 +145,10 @@ namespace PokemonGoEvents.Helpers
 
             foreach (var item in items)
             {
-                // If the item itself is marked hidden via class 'hide-event', skip it
-                var cls = item.GetAttributeValue("class", string.Empty);
-                if (!string.IsNullOrWhiteSpace(cls))
-                {
-                    var tokens = cls.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-                    if (tokens.Contains("hide-event"))
-                        continue;
-                }
-
                 var startRaw = item.GetAttributeValue("data-event-start-date-check", string.Empty)?.Trim();
+                if(startRaw == null)
+                    startRaw = item.GetAttributeValue("data-event-start-date", string.Empty)?.Trim();
+
                 var endRaw = item.GetAttributeValue("data-event-end-date", string.Empty)?.Trim();
 
                 // Find the next <a> element in document order after the item and read its 'ref' (or fallback to href)
@@ -199,6 +195,23 @@ namespace PokemonGoEvents.Helpers
                 .GroupBy(x => (x.StartCheck, x.EndDate, x.Ref))
                 .Select(g => g.First())
                 .ToList();
+        }
+
+        /// <summary>
+        /// Parse the provided HTML and return the inner HTML of the first element
+        /// whose class list contains the token "event-description". Returns null
+        /// when the content or the element is not found.
+        /// </summary>
+        public static string? GetContentSubPages(string? html)
+        {
+            if (string.IsNullOrEmpty(html))
+                return null;
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            var node = doc.DocumentNode.SelectSingleNode("//*[contains(concat(' ', normalize-space(@class), ' '), ' event-description ')]");
+            return node?.InnerHtml?.Trim();
         }
 
         /// <summary>

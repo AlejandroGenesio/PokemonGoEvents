@@ -80,3 +80,6 @@ appsettings.Development.json
 .idea/
 
 # End of .gitignore
+
+# Ignore generated links content
+linksfound/
