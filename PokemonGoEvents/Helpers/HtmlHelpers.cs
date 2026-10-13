@@ -77,6 +77,10 @@ namespace PokemonGoEvents.Helpers
                 var startRaw = item.GetAttributeValue("data-event-start-date-check", string.Empty)?.Trim();
                 var endRaw = item.GetAttributeValue("data-event-end-date", string.Empty)?.Trim();
 
+                // Find the next <a> element in document order after the item and read its 'ref' (or fallback to href)
+                var followingAnchor = item.SelectSingleNode("following::a[1]");
+                var hrefAttr = followingAnchor?.GetAttributeValue("href", null)?.Trim();
+
                 // Only include if at least one attribute exists
                 if (string.IsNullOrEmpty(startRaw) && string.IsNullOrEmpty(endRaw))
                     continue;
@@ -107,13 +111,14 @@ namespace PokemonGoEvents.Helpers
                 result.Add(new EventDateInfo
                 {
                     StartCheck = startDt,
-                    EndDate = endDt
+                    EndDate = endDt,
+                    Ref = string.IsNullOrEmpty(hrefAttr) ? null : hrefAttr
                 });
             }
 
-            // Remove duplicates based on both nullable DateTime values
+            // Remove duplicates based on start, end and ref values
             return result
-                .GroupBy(x => (x.StartCheck, x.EndDate))
+                .GroupBy(x => (x.StartCheck, x.EndDate, x.Ref))
                 .Select(g => g.First())
                 .ToList();
         }
@@ -160,5 +165,6 @@ namespace PokemonGoEvents.Helpers
     {
         public DateTime? StartCheck { get; set; }
         public DateTime? EndDate { get; set; }
+        public string? Ref { get; set; }
     }
 }
