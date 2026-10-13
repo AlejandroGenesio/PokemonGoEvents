@@ -85,3 +85,5 @@ appsettings.Development.json
 linksfound/
 # Ignore external projects or vendor code
 external/
+
+.env
