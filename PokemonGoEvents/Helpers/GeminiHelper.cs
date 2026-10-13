@@ -27,7 +27,10 @@ namespace PokemonGoEvents.Helpers
                 new Content
                 {
                     Role = "user",
-                    Parts = { new Part { Text = combined } }
+                    Parts = new List<Part>
+                    {
+                        new Part { Text = combined }
+                    }
                 }
             };
 

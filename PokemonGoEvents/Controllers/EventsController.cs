@@ -52,8 +52,17 @@ namespace PokemonGoEvents.Controllers
 
                 string allContent = HtmlHelpers.ReadAllLinksFoundFilesContent();
 
-                // Return the found event info as JSON
-                return Ok(links);
+                // Send content to Gemini asking for Pokemon names good for PvE
+                var question = "Tell me only the name of the pokemons that I can catch and they are good for PvE";
+                var geminiResponse = await GeminiHelper.SendContentAndQuestionAsync(allContent, question);
+
+                // Print response to console and include it in the HTTP response
+                if (!string.IsNullOrEmpty(geminiResponse))
+                {
+                    Console.WriteLine(geminiResponse);
+                }
+
+                return Ok(new { links, assistant = geminiResponse });
             }
             catch (HttpRequestException ex)
             {
