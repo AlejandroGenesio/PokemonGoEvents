@@ -34,6 +34,14 @@ namespace PokemonGoEvents.Controllers
                 var node = HtmlHelpers.FindCurrentEventsFromHtml(html);
                 var content = node?.InnerHtml ?? string.Empty;
 
+                // First try to read a recent cached Gemini response file (1 day threshold).
+                var cached = HtmlHelpers.GetFileContentIfCreatedWithinDays("latestGeminiResponse", "gemini_response.txt", 0);
+                if (!string.IsNullOrEmpty(cached))
+                {
+                    // Return cached assistant response without further processing
+                    return Ok(new { assistant = cached + "<br/><br/>Cached Response" });
+                }
+
                 // Extract links from the saved content, excluding hidden events
                 var links = HtmlHelpers.FindLinksExcludingHiddenFromHtml(content);
 
@@ -56,13 +64,20 @@ namespace PokemonGoEvents.Controllers
                 var question = "Tell me only the name of the pokemons that I can catch and they are good for PvE";
                 var geminiResponse = await GeminiHelper.SendContentAndQuestionAsync(allContent, question);
 
+                question = "Tell me the key events. Do not include the dates";
+                geminiResponse += await GeminiHelper.SendContentAndQuestionAsync(allContent, question);
+
+                geminiResponse = HtmlHelpers.MarkdownToHtml(geminiResponse ?? string.Empty);
+
+                HtmlHelpers.SaveFileContent(geminiResponse);
+
                 // Print response to console and include it in the HTTP response
                 if (!string.IsNullOrEmpty(geminiResponse))
                 {
                     Console.WriteLine(geminiResponse);
                 }
 
-                return Ok(new { links, assistant = geminiResponse });
+                return Ok(new { links, assistant = geminiResponse + "<br/><br/> Realtime response" });
             }
             catch (HttpRequestException ex)
             {
