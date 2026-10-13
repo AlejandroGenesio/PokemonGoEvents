@@ -38,6 +38,37 @@ namespace PokemonGoEvents.Helpers
         }
 
         /// <summary>
+        /// Create a file with the given name and content only if the file does not already exist.
+        /// Returns true when the file was created, false if it already existed.
+        /// </summary>
+        public static bool CreateFileIfNotExists(string filePath, string content)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("filePath must be provided", nameof(filePath));
+
+            if (File.Exists(filePath))
+                return false;
+
+            var dir = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrWhiteSpace(dir))
+                Directory.CreateDirectory(dir);
+
+            File.WriteAllText(filePath, content ?? string.Empty);
+            return true;
+        }
+
+        public static bool DoesFileExist(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                return false;
+
+            if (File.Exists(filePath))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
         /// Find event items with class "event-header-item-wrapper" and extract
         /// the attributes data-event-start-date-check and data-event-end-date.
         /// Returns a list of EventDateInfo objects.
@@ -121,28 +152,6 @@ namespace PokemonGoEvents.Helpers
                 .GroupBy(x => (x.StartCheck, x.EndDate, x.Ref))
                 .Select(g => g.First())
                 .ToList();
-        }
-
-        private static bool IsInsideAncestorWithClass(HtmlNode? node, string classToken)
-        {
-            if (node == null)
-                return false;
-
-            var parent = node.ParentNode;
-            while (parent != null)
-            {
-                var cls = parent.GetAttributeValue("class", string.Empty);
-                if (!string.IsNullOrWhiteSpace(cls))
-                {
-                    var tokens = cls.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-                    if (tokens.Contains(classToken))
-                        return true;
-                }
-
-                parent = parent.ParentNode;
-            }
-
-            return false;
         }
 
         /// <summary>

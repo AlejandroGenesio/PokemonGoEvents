@@ -34,9 +34,6 @@ namespace PokemonGoEvents.Controllers
                 var node = HtmlHelpers.FindCurrentEventsFromHtml(html);
                 var content = node?.InnerHtml ?? string.Empty;
 
-                // Save the stripped HTML to linksfound/strippedhtml.txt
-                // HtmlHelpers.SaveStrippedHtml(content);
-
                 // Extract links from the saved content, excluding hidden events
                 var links = HtmlHelpers.FindLinksExcludingHiddenFromHtml(content);
 
